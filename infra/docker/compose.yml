@@ -1,0 +1,10 @@
+services:
+  schema-service:
+    build:
+      context: ../../apps/schema-service
+      dockerfile: Dockerfile
+      target: release
+    ports:
+      - "13000:3000"
+    env_file:
+      - ../../apps/schema-service/.env
