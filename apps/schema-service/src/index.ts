@@ -6,10 +6,17 @@ import { type Logger } from 'pino';
 import { createSchemaGenRoutes } from './routes/schema';
 import { createLogger } from './logger';
 import { getConfig, type Config } from './config';
+import { GeminiLangchain } from './lib/langchain';
 
-export const createApp = ({ logger }: { logger: Logger }) => {
+export const createApp = ({ logger, config }: { logger: Logger, config: Config }) => {
+  logger.info("creating llm client...")
+
+  const llmClient = new GeminiLangchain(logger, config)
+
+  logger.info("creating app...")
   const app = new Elysia({ name: 'main-app', adapter: BunAdapter })
     .decorate('log', logger)
+    .decorate('llmClient', llmClient)
     .use(cors())
     .use(
       swagger({
@@ -36,7 +43,7 @@ export const createApp = ({ logger }: { logger: Logger }) => {
 
 // run function with injected dependencies
 const run = ({ config, logger }: { config: Config, logger: Logger }) => {
-  const app = createApp({ logger });
+  const app = createApp({ logger, config });
 
   const runningApp = app as typeof app & { log: typeof logger };
 
