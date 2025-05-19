@@ -1,13 +1,11 @@
-import { TableDemo } from "./components/materialized/table-demo"
-
+import { TableDemo } from "./components/materialized/table-demo";
 
 function App() {
-
   return (
     <div className="max-w-xl m-2">
-        <TableDemo />
+      <TableDemo />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
