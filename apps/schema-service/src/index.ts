@@ -40,9 +40,9 @@ export const createApp = ({ log, config }: { log: Logger; config: Config }) => {
       },
     })
     .post(
-      "/generate",
+      "/generate-table",
       async ({ body, log, set, llmClient }) => {
-        log.info({ body }, "Received request at /schema-gen/generate");
+        log.info({ body }, "Received request at /generate-table");
 
         let chunk: undefined | AIMessageChunk;
         try {
@@ -63,8 +63,8 @@ export const createApp = ({ log, config }: { log: Logger; config: Config }) => {
           prompt: t.String(),
         }),
         detail: {
-          summary: "Schema Gen Endpoint",
-          description: "Receives a prompt and generates a json layout schema.",
+          summary: "Table Schema Gen Endpoint",
+          description: "Receives a prompt and generates a json layout schema for a table.",
         },
       }
     );
