@@ -5,19 +5,30 @@ import { cors } from "@elysiajs/cors";
 import { type Logger } from "pino";
 import { type Config } from "./config";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { handleGenerateTable, generateTableBodySchema } from "./routes/generate-table-route";
 
 export const createApp = ({ log, config }: { log: Logger; config: Config }) => {
-  log.info("creating llm client...");
-  const llmClient = new ChatGoogleGenerativeAI({
+  log.info("creating llm clients...");
+  const rigidLlm = new ChatGoogleGenerativeAI({
     model: "gemini-2.0-flash-lite",
     apiKey: config.geminiApiKey,
-    temperature: 0,
+    temperature: 0.1,
+    topK: 3,
+    topP: 0.9,
+  });
+
+  const creativeLlm = new ChatGoogleGenerativeAI({
+    model: "gemini-2.0-flash-lite",
+    apiKey: config.geminiApiKey,
+    temperature: 0.5,
+    topK: 5,
+    topP: 0.5,
   });
 
   log.info("creating app...");
   const app = new Elysia({ name: "main-app", adapter: BunAdapter })
     .decorate("log", log)
-    .decorate("llmClient", llmClient)
+    .decorate("llmClients", { rigidLlm, creativeLlm })
     .use(cors())
     .use(
       swagger({
@@ -36,32 +47,13 @@ export const createApp = ({ log, config }: { log: Logger; config: Config }) => {
         summary: "Service Health Check",
       },
     })
-    .post(
-      "/generate-table",
-      async ({ body, log, set, llmClient }) => {
-        log.info({ body }, "Received request at /generate-table");
-
-        try {
-          set.status = 200;
-          return { success: true, message: "chunk" };
-        } catch (e) {
-          set.status = 400;
-          if (e instanceof Error) {
-            return { success: false, message: e.message };
-          }
-          return { success: false, message: "unknown error" };
-        }
+    .post("/generate-table", handleGenerateTable, {
+      body: generateTableBodySchema,
+      detail: {
+        summary: "Table Schema Gen Endpoint",
+        description: "Receives a prompt and generates a json layout schema for a table.",
       },
-      {
-        body: t.Object({
-          prompt: t.String(),
-        }),
-        detail: {
-          summary: "Table Schema Gen Endpoint",
-          description: "Receives a prompt and generates a json layout schema for a table.",
-        },
-      }
-    );
+    });
 
   return app;
 };
