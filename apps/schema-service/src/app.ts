@@ -1,4 +1,4 @@
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { BunAdapter } from "elysia/adapter/bun";
 import { swagger } from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
@@ -10,19 +10,13 @@ import { handleGenerateTable, generateTableBodySchema } from "./routes/generate-
 export const createApp = ({ log, config }: { log: Logger; config: Config }) => {
   log.info("creating llm clients...");
   const rigidLlm = new ChatGoogleGenerativeAI({
-    model: "gemini-2.0-flash-lite",
     apiKey: config.geminiApiKey,
-    temperature: 0.1,
-    topK: 3,
-    topP: 0.9,
+    ...config.rigidLlm,
   });
 
   const creativeLlm = new ChatGoogleGenerativeAI({
-    model: "gemini-2.0-flash-lite",
     apiKey: config.geminiApiKey,
-    temperature: 0.5,
-    topK: 5,
-    topP: 0.5,
+    ...config.creativeLlm,
   });
 
   log.info("creating app...");
