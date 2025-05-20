@@ -1,16 +1,15 @@
 import { FewShotPromptTemplate, PromptTemplate } from "@langchain/core/prompts";
-import type { Runnable } from "@langchain/core/runnables";
+import { type BaseChatModel } from "@langchain/core/language_models/chat_models";
 import type { Logger } from "pino";
+import { z } from "zod";
 import { mockDataExamples } from "../prompts/step2-data-gen/few-shot-examples";
 import type { TableSpecification } from "../schemas/table-spec-schema";
 import { wrappedError } from "~/utils";
-import type { MockDataArray } from "../schemas/mock-data-schema";
+import { createItemSchemaFromTableSpec, type MockDataArray } from "../schemas/mock-data-schema";
 
 let mockDataPromptTemplateInstance: FewShotPromptTemplate | null = null;
 
-export async function createMockDataPromptTemplate(
-  log: Logger
-): Promise<Runnable<{ currentLlmInput: string }, any>> {
+async function createMockDataPromptTemplate(log: Logger): Promise<FewShotPromptTemplate> {
   if (mockDataPromptTemplateInstance) {
     log.debug("mockDataPromptTemplateInstance exists");
     return mockDataPromptTemplateInstance;
@@ -52,7 +51,7 @@ function prepareInputForPrompt(
 
 export async function generateMockData(
   tableSpec: TableSpecification,
-  mockDataChain: Runnable<{ currentLlmInput: string }, MockDataArray>,
+  llm: BaseChatModel,
   log: Logger
 ): Promise<MockDataArray> {
   if (!tableSpec || !tableSpec.columns || tableSpec.columns.length === 0) {
@@ -77,6 +76,11 @@ export async function generateMockData(
 
   try {
     log.debug(`invoking mockDataChain with input string for ${rowCount} rows`);
+
+    const schema = createItemSchemaFromTableSpec(tableSpec.columns);
+    const structuredLlm = llm.withStructuredOutput(z.array(schema));
+    const template = await createMockDataPromptTemplate(log);
+    const mockDataChain = template.pipe(structuredLlm);
 
     const mockData = await mockDataChain.invoke({ currentLlmInput: llmInputString });
     log.debug(`successfully generated ${mockData.length} rows of mock data via chain`);

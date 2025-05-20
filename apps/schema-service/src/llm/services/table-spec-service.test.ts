@@ -2,9 +2,8 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { describe, it, expect, beforeAll } from "bun:test";
 import { getConfig } from "~/config";
 import { createLogger } from "~/logger";
-import { createTableSpecPromptTemplate, generateTableSpec } from "./table-spec-service";
+import { generateTableSpec } from "./table-spec-service";
 import type { Logger } from "pino";
-import { TableSpecificationSchema } from "../schemas/table-spec-schema";
 
 describe("TableSpecService", () => {
   let llm: ChatGoogleGenerativeAI;
@@ -26,11 +25,7 @@ describe("TableSpecService", () => {
 
   it("should. It better.", async () => {
     const prompt = "build me a annual reports table";
-    const structuredLlm = llm.withStructuredOutput(TableSpecificationSchema);
-
-    const template = await createTableSpecPromptTemplate(log);
-    const runnable = template.pipe(structuredLlm);
-    const res = await generateTableSpec(prompt, runnable, log);
+    const res = await generateTableSpec(prompt, llm, log);
 
     expect(res).toHaveProperty("columns");
   });

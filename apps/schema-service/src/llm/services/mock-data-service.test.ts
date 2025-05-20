@@ -3,10 +3,8 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import type { Logger } from "pino";
 import { getConfig } from "~/config";
 import { createLogger } from "~/logger";
-import { createMockDataPromptTemplate, generateMockData } from "./mock-data-service";
-import { createItemSchemaFromTableSpec } from "../schemas/mock-data-schema";
+import { generateMockData } from "./mock-data-service";
 import type { TableSpecification } from "../schemas/table-spec-schema";
-import { z } from "zod";
 
 describe("MockDataService", () => {
   let llm: ChatGoogleGenerativeAI;
@@ -40,12 +38,7 @@ describe("MockDataService", () => {
       mockDataDetails: "Electronic gadgets",
     } satisfies TableSpecification;
 
-    const schema = createItemSchemaFromTableSpec(exampleSpec.columns);
-    const structuredLlm = llm.withStructuredOutput(z.array(schema));
-
-    const template = await createMockDataPromptTemplate(log);
-    const runnable = template.pipe(structuredLlm);
-    const data = await generateMockData(exampleSpec, runnable, log);
+    const data = await generateMockData(exampleSpec, llm, log);
 
     expect(data.length).toEqual(exampleSpec.requestedRowCount);
   });
