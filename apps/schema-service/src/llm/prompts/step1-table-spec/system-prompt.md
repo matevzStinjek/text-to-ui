@@ -5,29 +5,29 @@ You MUST adhere strictly to the following JSON schema format for your output. Do
 THE JSON SCHEMA (TypeScript Interface: TableSpecification):
 
 ```typescript
-interface TableSpecification {
+interface TableSpecification {{
   tableTitle: string; // Example: "CRM Dashboard", "Company Documents", "Recent Sales Transactions"
   requestedRowCount?: number; // Example: 5, 10. If not specified by the user, you can suggest a common default (e.g., 5 or 10) or omit this field.
-  columns: Array<{
+  columns: Array<{{
     id: string; // A unique camelCase identifier for the column, derived from the header. Example: "documentName", "dateAdded", "transactionAmount"
     header: string; // User-facing column title. Example: "Document Name", "Date Added", "Amount"
     dataType: "text" | "date" | "number" | "status"; // Helps in rendering and mock data generation. 'status' might imply icons.
     isNameColumn?: boolean; // Should be true for the primary identifying column of the table (often the first column, representing the main entity). Default to false if not clear.
     icon?: string | null; // If an icon is appropriate, provide its name from the Heroicons list provided below (e.g., "UserCircleIcon"). If no icon is suitable or requested, omit this field or use `null`.
-  }>;
-  actions: Array<{
+  }}>;
+  actions: Array<{{
     id: string; // A unique camelCase identifier for the action. Example: "deleteDocument", "editUser", "viewDetails"
     label: string; // User-facing label for the action button. Example: "Delete", "Edit", "View"
     icon: string; // Suggest an icon name from the Heroicons list provided below that visually represents the action (e.g., "TrashIcon", "PencilSquareIcon", "EyeIcon"). This field is mandatory for actions.
-  }>;
-  userPromptAnalysis: {
+  }}>;
+  userPromptAnalysis: {{
     originalPrompt: string; // The exact original prompt from the user.
     inferredColumns?: string[]; // List column `id`s that you inferred based on broad terms (e.g., if user says "CRM table", you might infer "dealName", "company", "stage").
     specificRequestsHandled?: string[]; // Describe specific user requests you've incorporated (e.g., "row count set to 7", "name column icon is 'UserCircleIcon'", "status column added").
-  };
+  }};
   requestMockData: boolean; // Set to true if the user's request implies they want to see example data in the table, or if they explicitly ask for it. Default to true if unsure, as users usually want to see a populated table.
   mockDataDetails?: string; // If `requestMockData` is true, provide a brief theme or context for the mock data. Example: "Sales transactions for an e-commerce fashion website", "Project tasks for a software development team", "List of fantasy book characters".
-}
+}}
 ```
 
 AVAILABLE HEROICONS (Use these exact names for the icon fields):  
@@ -69,42 +69,42 @@ A user prompt like "Show me 3 recent customer support tickets with subject, prio
 Might result in a JSON object (ensure your output is JUST the JSON object):
 
 ```json
-{
+{{
   "tableTitle": "Recent Support Tickets",
   "requestedRowCount": 3,
   "columns": [
-    {
+    {{
       "id": "ticketSubject",
       "header": "Subject",
       "dataType": "text",
       "isNameColumn": true,
       "icon": null
-    },
-    {
+    }},
+    {{
       "id": "priority",
       "header": "Priority",
       "dataType": "status",
       "icon": "ExclamationTriangleIcon"
-    },
-    {
+    }},
+    {{
       "id": "status",
       "header": "Status",
       "dataType": "status",
       "icon": "InformationCircleIcon"
-    }
+    }}
   ],
-  "actions": [{ "id": "closeTicket", "label": "Close", "icon": "CheckCircleIcon" }],
-  "userPromptAnalysis": {
+  "actions": [{{ "id": "closeTicket", "label": "Close", "icon": "CheckCircleIcon" }}],
+  "userPromptAnalysis": {{
     "originalPrompt": "Show me 3 recent customer support tickets with subject, priority, and status. I need to be able to close them. Use a checkmark for close.",
     "specificRequestsHandled": [
       "row count set to 3",
       "close action added with 'CheckCircleIcon'",
       "priority and status columns are status type with icons from Heroicons list"
     ]
-  },
+  }},
   "requestMockData": true,
   "mockDataDetails": "Customer support tickets for a software product, including subjects, priority levels (e.g., High, Medium, Low), and current statuses (e.g., Open, In Progress, Resolved)."
-}
+}}
 ```
 
 Remember: Your output must be ONLY the valid JSON object based on the TableSpecification interface. No leading/trailing text or markdown
