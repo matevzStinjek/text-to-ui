@@ -56,16 +56,16 @@ export async function generateMockData(
   log: Logger
 ): Promise<MockDataArray> {
   if (!tableSpec || !tableSpec.columns || tableSpec.columns.length === 0) {
-    throw new Error("Table specification must include columns to generate mock data.");
+    throw new Error("spec includes no columns");
   }
   if (!tableSpec.requestMockData) {
-    log.debug("Mock data not requested in table specification. Skipping generation.");
+    log.debug("mock data not requested");
     return [];
   }
 
   const rowCount = tableSpec.requestedRowCount ?? 5;
   if (rowCount <= 0) {
-    log.debug("Row count is zero or negative. Skipping mock data generation.");
+    log.debug("row count non-positive, skipping generation");
     return [];
   }
 
@@ -76,13 +76,13 @@ export async function generateMockData(
   );
 
   try {
-    log.debug(`Invoking injected mockDataChain with input string for ${rowCount} rows.`);
+    log.debug(`invoking mockDataChain with input string for ${rowCount} rows`);
 
     const mockData = await mockDataChain.invoke({ currentLlmInput: llmInputString });
-    log.debug(`Successfully generated ${mockData.length} rows of mock data via injected chain.`);
+    log.debug(`successfully generated ${mockData.length} rows of mock data via chain`);
     return mockData;
   } catch (error) {
-    log.error("Error generating mock data via injected chain:", error);
+    log.error("error generating mock data via chain: ", error);
     throw wrappedError(error, "Failed to generate mock data using the provided chain.");
   }
 }
