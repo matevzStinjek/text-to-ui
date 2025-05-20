@@ -14,7 +14,9 @@ export async function createTableSpecPromptTemplate(log: Logger): Promise<FewSho
   }
 
   log.debug("reading step1-table-spec/system-prompt.md");
-  const systemPromptText = await Bun.file("./src/llm/prompts/step1-table-spec/system-prompt.md").text();
+  const systemPromptText = await Bun.file(
+    "./src/llm/prompts/step1-table-spec/system-prompt.md"
+  ).text();
 
   const examplePrompt = new PromptTemplate({
     template: "User Prompt:\n{userInput}\n\nJSON Output:\n{output}",
