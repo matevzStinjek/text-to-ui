@@ -16,8 +16,10 @@ export async function createMockDataPromptTemplate(
     return mockDataPromptTemplateInstance;
   }
 
-  log.debug("reading step2-table-spec/system-prompt.md");
-  const systemPromptText = await Bun.file("./src/llm/prompts/step2-data-gen/system-prompt.md").text();
+  log.debug("reading step2-data-gen/system-prompt.md");
+  const systemPromptText = await Bun.file(
+    "./src/llm/prompts/step2-data-gen/system-prompt.md"
+  ).text();
 
   const fewShotExamplePrompt = new PromptTemplate({
     template: "Input Context:\n{llmInput}\n\nJSON Array Output:\n{output}",
