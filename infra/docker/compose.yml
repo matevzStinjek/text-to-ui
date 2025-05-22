@@ -3,8 +3,16 @@ services:
     build:
       context: ../../apps/schema-service
       dockerfile: Dockerfile
-      target: release
     ports:
-      - "13000:3000"
+      - "3000:3000"
     env_file:
       - ../../apps/schema-service/.env
+
+  client:
+    build:
+      context: ../../apps
+      dockerfile: client/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_API_URL="http://schema-service:3000"
