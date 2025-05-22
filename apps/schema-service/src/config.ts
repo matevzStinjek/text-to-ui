@@ -1,18 +1,16 @@
 import type { Logger } from "pino";
 import { z } from "zod";
 
-// Zod schema for LLM configuration
 const LlmConfigSchema = z.object({
   model: z.string().default("gemini-1.5-flash-latest"),
-  temperature: z.coerce.number().min(0).max(2).default(0.1), // Example validation
+  temperature: z.coerce.number().min(0).max(2).default(0.1),
   topK: z.coerce.number().int().positive().default(3),
   topP: z.coerce.number().min(0).max(1).default(0.9),
 });
 
-// Zod schema for the main configuration
 const ConfigSchema = z.object({
   port: z.coerce.number().int().positive().default(3000),
-  geminiApiKey: z.string().min(1, "GEMINI_API_KEY is required"), // Added min(1) for presence check
+  geminiApiKey: z.string().min(1, "GEMINI_API_KEY is required"),
   rigidLlm: LlmConfigSchema.extend({
     temperature: LlmConfigSchema.shape.temperature.default(0.1),
     topK: LlmConfigSchema.shape.topK.default(3),
@@ -25,10 +23,9 @@ const ConfigSchema = z.object({
   }),
 });
 
-// Infer the Config type from the Zod schema
 export type Config = z.infer<typeof ConfigSchema>;
 
-export function getConfig(getenv: (key: string) => string | undefined, logger: Logger): Config {
+export function getConfig(getenv: (key: string) => string | undefined, log: Logger): Config {
   const envValues = {
     PORT: getenv("PORT"),
     GEMINI_API_KEY: getenv("GEMINI_API_KEY"),
@@ -42,7 +39,6 @@ export function getConfig(getenv: (key: string) => string | undefined, logger: L
     CREATIVE_LLM_TOP_P: getenv("CREATIVE_LLM_TOP_P"),
   };
 
-  // Map environment variables to the schema structure before parsing
   const rawConfig = {
     port: envValues.PORT,
     geminiApiKey: envValues.GEMINI_API_KEY,
@@ -62,12 +58,12 @@ export function getConfig(getenv: (key: string) => string | undefined, logger: L
 
   try {
     const parsedConfig = ConfigSchema.parse(rawConfig);
-    logger.info("Configuration loaded and validated successfully.");
+    log.info("config loaded and validated successfully");
     return parsedConfig;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      logger.error({ issues: error.issues }, "Configuration validation failed:");
+      log.error({ issues: error.issues }, "config validation failed:");
     }
-    throw new Error("Configuration validation failed. Check logs for details.");
+    throw new Error("config validation failed");
   }
 }
