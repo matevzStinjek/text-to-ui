@@ -1,8 +1,11 @@
 import { t } from "elysia";
 import type { Logger } from "pino";
 import type { BaseChatModel } from "@langchain/core/language_models/chat_models";
+import { RunnableLambda, RunnableSequence } from "@langchain/core/runnables";
 import { generateTableSpec } from "~/llm/services/table-spec-service";
 import { generateMockData } from "~/llm/services/mock-data-service";
+import type { TableSpecification } from "~/llm/schemas/table-spec-schema";
+
 interface LlmClients {
   rigidLlm: BaseChatModel;
   creativeLlm: BaseChatModel;
@@ -28,28 +31,43 @@ export const handleGenerateTable = async ({
   log.info("received request at /generate-table (handler)", { body });
 
   try {
-    // step 1: generate table spec
-    const tableSpecification = await generateTableSpec(body.prompt, rigidLlm, log);
-    log.info("table specification generated successfully");
+    const generateSpecLambda = new RunnableLambda({
+      func: async (inputPrompt: string): Promise<TableSpecification> => {
+        const spec = await generateTableSpec(inputPrompt, rigidLlm, log);
+        log.info("table specification generated successfully");
+        return spec;
+      },
+    }).withConfig({ runName: "GenerateTableSpecificationStep" });
 
-    let mockDataItems: Record<string, any>[] = [];
+    const generateMockDataLambda = new RunnableLambda({
+      func: async (tableSpec: TableSpecification) => {
+        if (!tableSpec.columns || tableSpec.columns.length === 0) {
+          log.error("no columns found in table spec, cannot generate mock data");
+          throw new Error("mock data generation failed: no columns were provided in the spec");
+        }
 
-    // step 2: generate mock data
-    if (tableSpecification.columns && tableSpecification.columns.length > 0) {
-      mockDataItems = await generateMockData(tableSpecification, creativeLlm, log);
-      log.info("mock data generated successfully");
-    }
+        const mockData = await generateMockData(tableSpec, creativeLlm, log);
+        log.info("mock data generated successfully");
 
-    const result = {
-      tableSpecification,
-      mockData: mockDataItems,
-    };
+        return {
+          tableSpecification: tableSpec,
+          mockData,
+        };
+      },
+    }).withConfig({ runName: "GenerateMockDataStep" });
+
+    const combinedChain = RunnableSequence.from([
+      generateSpecLambda,
+      generateMockDataLambda,
+    ]).withConfig({ runName: "ProcessTableRequestSequence" });
+
+    const result = await combinedChain.invoke(body.prompt);
 
     set.status = 200;
     return { success: true, data: result };
   } catch (e) {
     log.error({ err: e }, "Error in /generate-table handler");
-    set.status = 400; // or 500 for internal server errors
+    set.status = 400;
     if (e instanceof Error) {
       return { success: false, message: e.message };
     }
