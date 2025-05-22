@@ -5,12 +5,12 @@ export const tableSpecExamples = [
       "tableTitle": "CRM Opportunities",
       "requestedRowCount": 10,
       "columns": [
-        {{ "id": "dealName", "header": "Deal Name", "dataType": "text", "isNameColumn": true, "icon": false }},
+        {{ "id": "dealName", "header": "Deal Name", "dataType": "text", "isNameColumn": true }},
         {{ "id": "companyName", "header": "Company", "dataType": "text" }},
-        {{ "id": "stage", "header": "Stage", "dataType": "status", "icon": true }},
-        {{ "id": "value", "header": "Value", "dataType": "text" }},
+        {{ "id": "stage", "header": "Stage", "dataType": "status", "icon": "BarChartIcon" }},
+        {{ "id": "value", "header": "Value", "dataType": "number" }},
         {{ "id": "expectedCloseDate", "header": "Expected Close Date", "dataType": "date" }},
-        {{ "id": "assignee", "header": "Assignee", "dataType": "text", "icon": true }}
+        {{ "id": "assignee", "header": "Assignee", "dataType": "text", "icon": "UserIcon" }}
       ],
       "actions": [
         {{ "id": "viewOpportunity", "label": "View", "icon": "EyeIcon" }},
@@ -23,7 +23,7 @@ export const tableSpecExamples = [
         "specificRequestsHandled": []
       }},
       "requestMockData": true,
-      "mockDataDetails": "Sales opportunities for a B2B software company, including deal stages like 'Prospecting', 'Qualification', 'Proposal', 'Closed Won/Lost'."
+      "mockDataDetails": "Sales opportunities for a B2B software company, including deal stages like 'Prospecting' (MapPinIcon), 'Qualification' (SearchIcon), 'Proposal' (FileTextIcon), 'Closed Won' (CheckCircleIcon), 'Closed Lost' (XCircleIcon). Deals with values over 100,000 should have a DollarSignIcon."
     }}`,
   },
   {
@@ -35,7 +35,7 @@ export const tableSpecExamples = [
       "columns": [
         {{ "id": "documentName", "header": "Document Name", "dataType": "text", "isNameColumn": true, "icon": "StarIcon" }},
         {{ "id": "dateAdded", "header": "Date Added", "dataType": "date" }},
-        {{ "id": "fileType", "header": "File Type", "dataType": "text", "icon": true }},
+        {{ "id": "fileType", "header": "File Type", "dataType": "text", "icon": "FileIcon" }},
         {{ "id": "lastModifiedBy", "header": "Last Modified By", "dataType": "text" }}
       ],
       "actions": [
@@ -49,7 +49,7 @@ export const tableSpecExamples = [
         "specificRequestsHandled": ["row count set to 5", "name column icon is 'StarIcon'", "delete action added", "dateAdded column added"]
       }},
       "requestMockData": true,
-      "mockDataDetails": "Various company documents such as 'Q1 Financial Report.pdf', 'Marketing Strategy Q3.docx', 'Employee Handbook.pdf'. File types could be PDF, DOCX, XLSX, PPTX."
+      "mockDataDetails": "Various company documents such as 'Q1 Financial Report.pdf' (FileTextIcon), 'Marketing Strategy Q3.docx' (FileIcon), 'Employee Handbook.pdf' (BookIcon). PDF files should have FileTextIcon, DOCX should have FileIcon, XLSX should have BarChartIcon, PPTX should have BarChart2Icon."
     }}`,
   },
   {
@@ -60,7 +60,7 @@ export const tableSpecExamples = [
       "requestedRowCount": 10,
       "columns": [
         {{ "id": "taskDescription", "header": "Task", "dataType": "text", "isNameColumn": true }},
-        {{ "id": "priority", "header": "Priority", "dataType": "status", "icon": true }},
+        {{ "id": "priority", "header": "Priority", "dataType": "status", "icon": "FlagIcon" }},
         {{ "id": "dueDate", "header": "Due Date", "dataType": "date" }},
         {{ "id": "project", "header": "Project", "dataType": "text" }}
       ],
@@ -75,7 +75,7 @@ export const tableSpecExamples = [
         "specificRequestsHandled": ["row count set to 10", "priority column has icon", "due date column added", "mark as complete action added"]
       }},
       "requestMockData": true,
-      "mockDataDetails": "Project tasks with priorities like 'High', 'Medium', 'Low'. Due dates should be today. Example tasks: 'Finalize report presentation', 'Client follow-up call'."
+      "mockDataDetails": "Project tasks with priorities like 'High' (AlertTriangleIcon), 'Medium' (AlertCircleIcon), 'Low' (CircleIcon). Due dates should be today. Example tasks: 'Finalize report presentation', 'Client follow-up call'. Overdue tasks should display a ClockIcon with the date."
     }}`,
   },
   {
@@ -101,7 +101,7 @@ export const tableSpecExamples = [
         "specificRequestsHandled": ["username column has 'UserIcon'", "email and role columns added", "edit and delete actions added"]
       }},
       "requestMockData": true,
-      "mockDataDetails": "User accounts with roles like 'Admin', 'Editor', 'Viewer'. Usernames are typical usernames, emails are valid email formats, last login dates are recent."
+      "mockDataDetails": "User accounts with roles like 'Admin' (ShieldIcon), 'Editor' (PencilIcon), 'Viewer' (EyeIcon). Usernames are typical usernames, emails are valid email formats, last login dates are recent. Users who haven't logged in for more than a week should show an AlertCircleIcon with the date."
     }}`,
   },
   {
@@ -121,7 +121,7 @@ export const tableSpecExamples = [
         "specificRequestsHandled": ["row count set to 3", "name and price columns added", "add to cart action added"]
       }},
       "requestMockData": true,
-      "mockDataDetails": "Consumer products with names and prices, e.g., 'Wireless Headphones', 'Coffee Maker', 'Yoga Mat'."
+      "mockDataDetails": "Consumer products with names and prices, e.g., 'Wireless Headphones' (HeadphonesIcon), 'Coffee Maker' (CoffeeIcon), 'Yoga Mat'. Products on sale should show a TagIcon next to the price."
     }}`,
   },
 ];

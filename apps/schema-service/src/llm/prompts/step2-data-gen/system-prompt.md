@@ -18,14 +18,24 @@ OUTPUT REQUIREMENTS:
 - Each object in the array represents a row of mock data.
 - The number of objects in the array MUST match the provided `rowCount`.
 - Each object MUST have keys that exactly match the `id` values from the input `columns`.
-- The data generated for each key should be:
+- IMPORTANT: Each cell value MUST be structured as a `CellData` object with a mandatory `value` property and an optional `icon` property.
+- The `CellData` object format is as follows:
+  ```typescript
+  interface CellData<T = any> {{
+    value: T; // The actual data value for the cell (required)
+    icon?: string; // Optional: Lucide icon name (PascalCase)
+  }}
+  ```
+- The data generated for each cell's `value` should be:
   - Consistent with the `dataType` specified for that column.
   - Realistic and sensible given the column `header` and the overall `mockDataDetails`.
   - Varied enough to be useful as sample data.
-- For 'date' `dataType`, use "YYYY-MM-DD" format.
-- For 'number' `dataType`, generate plausible numerical values.
-- For 'status' `dataType`, generate common status-like strings relevant to the `mockDataDetails` (e.g., "Open", "In Progress", "Completed", or "High", "Medium", "Low").
-- For 'text' `dataType`, generate plausible text, names, descriptions, etc.
+- For 'date' `dataType`, the `value` should use "YYYY-MM-DD" format.
+- For 'number' `dataType`, the `value` should be a plausible numerical value.
+- For 'status' `dataType`, the `value` should be common status-like strings relevant to the `mockDataDetails` (e.g., "Open", "In Progress", "Completed", or "High", "Medium", "Low").
+- For 'text' `dataType`, the `value` should be plausible text, names, descriptions, etc.
+- The `icon` property should be a string representing a Lucide icon name (in PascalCase, e.g., "CheckCircle", "Clock") and should be included where contextually appropriate based on the `mockDataDetails` instructions.
+- For status-type columns, assign appropriate icons to specific status values as suggested in the `mockDataDetails`.
 - Do NOT include any explanatory text, markdown formatting (like `json`), or any other content outside of the JSON array itself.
 
 EXAMPLE INPUT (Illustrative - you will receive this structure programmatically):
@@ -40,7 +50,7 @@ EXAMPLE INPUT (Illustrative - you will receive this structure programmatically):
     {{ "id": "expectedCloseDate", "header": "Expected Close Date", "dataType": "date" }}
   ],
   "rowCount": 3,
-  "mockDataDetails": "Sales opportunities for a B2B software company. Deal stages could be 'Prospecting', 'Qualification', 'Proposal', 'Closed Won/Lost'. Value is a numerical amount."
+  "mockDataDetails": "Sales opportunities for a B2B software company. Deal stages could be 'Prospecting', 'Qualification', 'Proposal' (use BarChartIcon), 'Closed Won' (use CheckCircleIcon), 'Closed Lost' (use XCircleIcon). Value is a numerical amount."
 }}
 ```
 
@@ -49,25 +59,25 @@ EXAMPLE OUTPUT (Based on the illustrative input above - your output should be ON
 ```json
 [
   {{
-    "dealName": "Alpha Corp Integration",
-    "companyName": "Alpha Corp",
-    "stage": "Proposal",
-    "value": 75000,
-    "expectedCloseDate": "2025-07-15"
+    "dealName": {{ "value": "Alpha Corp Integration" }},
+    "companyName": {{ "value": "Alpha Corp" }},
+    "stage": {{ "value": "Proposal", "icon": "BarChartIcon" }},
+    "value": {{ "value": 75000 }},
+    "expectedCloseDate": {{ "value": "2025-07-15" }}
   }},
   {{
-    "dealName": "Beta Solutions Platform",
-    "companyName": "Beta Solutions Ltd.",
-    "stage": "Qualification",
-    "value": 120000,
-    "expectedCloseDate": "2025-09-01"
+    "dealName": {{ "value": "Beta Solutions Platform" }},
+    "companyName": {{ "value": "Beta Solutions Ltd." }},
+    "stage": {{ "value": "Closed Won", "icon": "CheckCircleIcon" }},
+    "value": {{ "value": 120000 }},
+    "expectedCloseDate": {{ "value": "2025-09-01" }}
   }},
   {{
-    "dealName": "Gamma Services Contract",
-    "companyName": "Gamma Services Inc.",
-    "stage": "Prospecting",
-    "value": 50000,
-    "expectedCloseDate": "2025-08-20"
+    "dealName": {{ "value": "Gamma Services Contract" }},
+    "companyName": {{ "value": "Gamma Services Inc." }},
+    "stage": {{ "value": "Closed Lost", "icon": "XCircleIcon" }},
+    "value": {{ "value": 50000 }},
+    "expectedCloseDate": {{ "value": "2025-08-20" }}
   }}
 ]
 ```
