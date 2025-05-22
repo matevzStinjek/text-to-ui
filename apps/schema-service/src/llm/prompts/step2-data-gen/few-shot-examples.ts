@@ -9,22 +9,22 @@ export const mockDataExamples = [
         {{ "id": "expectedCloseDate", "header": "Expected Close Date", "dataType": "date" }}
       ],
       "rowCount": 2,
-      "mockDataDetails": "Sales opportunities for a B2B software company. Deal stages: 'Prospecting', 'Qualification', 'Proposal', 'Negotiation', 'Closed Won', 'Closed Lost'. Value is a numerical amount representing deal size."
+      "mockDataDetails": "Sales opportunities for a B2B software company. Deal stages: 'Prospecting' (MapPinIcon), 'Qualification' (SearchIcon), 'Proposal' (FileTextIcon), 'Negotiation' (HandshakeIcon), 'Closed Won' (CheckCircleIcon), 'Closed Lost' (XCircleIcon). Value is a numerical amount representing deal size."
     }}`,
     output: `[
       {{
-        "dealName": "Project Phoenix Implementation",
-        "companyName": "Innovatech Solutions",
-        "stage": "Proposal",
-        "value": 85000,
-        "expectedCloseDate": "2025-08-10"
+        "dealName": {{ "value": "Project Phoenix Implementation" }},
+        "companyName": {{ "value": "Innovatech Solutions" }},
+        "stage": {{ "value": "Proposal", "icon": "FileTextIcon" }},
+        "value": {{ "value": 85000 }},
+        "expectedCloseDate": {{ "value": "2025-08-10" }}
       }},
       {{
-        "dealName": "Synergy Platform Upgrade",
-        "companyName": "Global Connect Corp",
-        "stage": "Negotiation",
-        "value": 150000,
-        "expectedCloseDate": "2025-07-25"
+        "dealName": {{ "value": "Synergy Platform Upgrade" }},
+        "companyName": {{ "value": "Global Connect Corp" }},
+        "stage": {{ "value": "Negotiation", "icon": "HandshakeIcon" }},
+        "value": {{ "value": 150000 }},
+        "expectedCloseDate": {{ "value": "2025-07-25" }}
       }}
     ]`,
   },
@@ -36,23 +36,23 @@ export const mockDataExamples = [
         {{ "id": "fileType", "header": "File Type", "dataType": "text" }}
       ],
       "rowCount": 3,
-      "mockDataDetails": "Company documents such as reports, presentations, and spreadsheets. File types could be PDF, DOCX, XLSX."
+      "mockDataDetails": "Company documents. PDF files should have FileTextIcon, DOCX files should have FileIcon, XLSX files should have BarChartIcon, and PPTX files should have BarChart2Icon."
     }}`,
     output: `[
       {{
-        "documentName": "Q2 Financial Summary.xlsx",
-        "dateAdded": "2025-04-18",
-        "fileType": "XLSX"
+        "documentName": {{ "value": "Q2 Financial Summary.xlsx", "icon": "BarChartIcon" }},
+        "dateAdded": {{ "value": "2025-04-18" }},
+        "fileType": {{ "value": "XLSX" }}
       }},
       {{
-        "documentName": "Annual Marketing Strategy.pptx",
-        "dateAdded": "2025-01-20",
-        "fileType": "PPTX"
+        "documentName": {{ "value": "Annual Marketing Strategy.pptx", "icon": "BarChart2Icon" }},
+        "dateAdded": {{ "value": "2025-01-20" }},
+        "fileType": {{ "value": "PPTX" }}
       }},
       {{
-        "documentName": "Employee Onboarding Guide.pdf",
-        "dateAdded": "2024-11-05",
-        "fileType": "PDF"
+        "documentName": {{ "value": "Employee Onboarding Guide.pdf", "icon": "FileTextIcon" }},
+        "dateAdded": {{ "value": "2024-11-05" }},
+        "fileType": {{ "value": "PDF" }}
       }}
     ]`,
   },
@@ -64,18 +64,18 @@ export const mockDataExamples = [
         {{ "id": "dueDate", "header": "Due Date", "dataType": "date" }}
       ],
       "rowCount": 2,
-      "mockDataDetails": "Project tasks with priorities: 'High', 'Medium', 'Low'. Due dates should be upcoming."
+      "mockDataDetails": "Project tasks with priorities: 'High' (AlertTriangleIcon), 'Medium' (AlertCircleIcon), 'Low' (CircleIcon). Overdue tasks should display a ClockIcon with the date."
     }}`,
     output: `[
       {{
-        "taskDescription": "Develop API endpoint for user authentication",
-        "priority": "High",
-        "dueDate": "2025-06-15"
+        "taskDescription": {{ "value": "Develop API endpoint for user authentication" }},
+        "priority": {{ "value": "High", "icon": "AlertTriangleIcon" }},
+        "dueDate": {{ "value": "2025-06-15" }}
       }},
       {{
-        "taskDescription": "Update documentation for new feature",
-        "priority": "Medium",
-        "dueDate": "2025-06-22"
+        "taskDescription": {{ "value": "Update documentation for new feature" }},
+        "priority": {{ "value": "Medium", "icon": "AlertCircleIcon" }},
+        "dueDate": {{ "value": "2025-06-22", "icon": "ClockIcon" }}
       }}
     ]`,
   },
@@ -87,23 +87,23 @@ export const mockDataExamples = [
         {{ "id": "stockQuantity", "header": "Stock Quantity", "dataType": "number" }}
       ],
       "rowCount": 3,
-      "mockDataDetails": "Consumer electronics products.Price is a numerical value.Stock quantity is an integer."
+      "mockDataDetails": "Consumer electronics products with names like 'Wireless Headphones' (HeadphonesIcon), 'Coffee Maker' (CoffeeIcon). Products on sale should show a TagIcon next to the price."
     }}`,
     output: `[
       {{
-        "productName": "Wireless Noise-Cancelling Headphones",
-        "price": 249.99,
-        "stockQuantity": 150
+        "productName": {{ "value": "Wireless Noise-Cancelling Headphones", "icon": "HeadphonesIcon" }},
+        "price": {{ "value": 249.99, "icon": "TagIcon" }},
+        "stockQuantity": {{ "value": 150 }}
       }},
       {{
-        "productName": "Smart Fitness Tracker Watch",
-        "price": 129.50,
-        "stockQuantity": 300
+        "productName": {{ "value": "Smart Fitness Tracker Watch" }},
+        "price": {{ "value": 129.50 }},
+        "stockQuantity": {{ "value": 300 }}
       }},
       {{
-        "productName": "Ultra HD 4K Webcam",
-        "price": 89.00,
-        "stockQuantity": 75
+        "productName": {{ "value": "Professional Coffee Maker", "icon": "CoffeeIcon" }},
+        "price": {{ "value": 89.00 }},
+        "stockQuantity": {{ "value": 75 }}
       }}
     ]`,
   },

@@ -1,11 +1,8 @@
-import { TableDemo } from "./components/materialized/table-demo";
+import "./index.css";
+import SchemaGeneratorPage from "./pages/SchemaGeneratorPage";
 
 function App() {
-  return (
-    <div className="max-w-xl m-2">
-      <TableDemo />
-    </div>
-  );
+  return <SchemaGeneratorPage />;
 }
 
 export default App;

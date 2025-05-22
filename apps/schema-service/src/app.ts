@@ -52,6 +52,9 @@ export const createApp = ({ log, config }: { log: Logger; config: Config }) => {
   return app;
 };
 
+// export the app type for Eden client
+export type AppType = ReturnType<typeof createApp>;
+
 // run function with injected dependencies
 export function run({ config, log }: { config: Config; log: Logger }) {
   const app = createApp({ log, config });

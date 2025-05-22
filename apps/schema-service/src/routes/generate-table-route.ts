@@ -51,7 +51,7 @@ export const handleGenerateTable = async ({
     return { success: true, data: result };
   } catch (e) {
     log.error({ err: e }, "Error in /generate-table handler");
-    set.status = 400; // Or 500 for internal server errors
+    set.status = 400; // or 500 for internal server errors
     if (e instanceof Error) {
       return { success: false, message: e.message };
     }
