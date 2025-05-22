@@ -15,18 +15,15 @@ describe("TableSpecService", () => {
     const config = getConfig(getenv, log);
 
     llm = new ChatGoogleGenerativeAI({
-      model: "gemini-2.0-flash-lite",
       apiKey: config.geminiApiKey,
-      temperature: 0.1,
-      topK: 3,
-      topP: 0.9,
+      ...config.rigidLlm,
     });
   });
 
   it("should. It better.", async () => {
     const prompt = "build me a annual reports table";
-    const res = await generateTableSpec(prompt, llm, log);
+    const spec = await generateTableSpec(prompt, llm, log);
 
-    expect(res).toHaveProperty("columns");
+    expect(spec).toHaveProperty("columns");
   });
 });

@@ -16,11 +16,8 @@ describe("MockDataService", () => {
     const config = getConfig(getenv, log);
 
     llm = new ChatGoogleGenerativeAI({
-      model: "gemini-2.0-flash-lite",
       apiKey: config.geminiApiKey,
-      temperature: 0.5,
-      topK: 5,
-      topP: 0.5,
+      ...config.creativeLlm,
     });
   });
 
