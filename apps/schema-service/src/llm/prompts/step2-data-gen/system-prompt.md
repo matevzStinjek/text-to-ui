@@ -18,12 +18,15 @@ OUTPUT REQUIREMENTS:
 - Each object in the array represents a row of mock data.
 - The number of objects in the array MUST match the provided `rowCount`.
 - Each object MUST have keys that exactly match the `id` values from the input `columns`.
-- IMPORTANT: Each cell value MUST be structured as a `CellData` object with a mandatory `value` property and an optional `icon` property.
+- CRITICAL: Icon usage MUST be consistent within each column:
+  - If ANY cell in a column has an icon, ALL cells in that column MUST have an icon property (even if they are different icons).
+  - If NO cell in a column needs an icon, ALL cells in that column should OMIT the icon property entirely.
+  - NEVER mix cells with icons and cells without icons in the same column.
 - The `CellData` object format is as follows:
   ```typescript
   interface CellData<T = any> {{
     value: T; // The actual data value for the cell (required)
-    icon?: string; // Optional: Lucide icon name (PascalCase)
+    icon?: string; // Optional: Lucide icon name (PascalCase) - include ONLY if column uses icons
   }}
   ```
 - The data generated for each cell's `value` should be:
@@ -34,7 +37,7 @@ OUTPUT REQUIREMENTS:
 - For 'number' `dataType`, the `value` should be a plausible numerical value.
 - For 'status' `dataType`, the `value` should be common status-like strings relevant to the `mockDataDetails` (e.g., "Open", "In Progress", "Completed", or "High", "Medium", "Low").
 - For 'text' `dataType`, the `value` should be plausible text, names, descriptions, etc.
-- The `icon` property should be a string representing a Lucide icon name (in PascalCase, e.g., "CheckCircle", "Clock") and should be included where contextually appropriate based on the `mockDataDetails` instructions.
+- The `icon` property, when included, should be a string representing a Lucide icon name (in PascalCase, e.g., "CheckCircle", "Clock").
 - For status-type columns, assign appropriate icons to specific status values as suggested in the `mockDataDetails`.
 - Do NOT include any explanatory text, markdown formatting (like `json`), or any other content outside of the JSON array itself.
 

@@ -22,7 +22,7 @@ export const tableSpecExamples = [
         "inferredColumns": ["dealName", "companyName", "stage", "value", "expectedCloseDate", "assignee"],
         "specificRequestsHandled": []
       }},
-      "mockDataDetails": "Sales opportunities for a B2B software company, including deal stages like 'Prospecting' (MapPinIcon), 'Qualification' (SearchIcon), 'Proposal' (FileTextIcon), 'Closed Won' (CheckCircleIcon), 'Closed Lost' (XCircleIcon). Deals with values over 100,000 should have a DollarSignIcon."
+      "mockDataDetails": "Sales opportunities for a B2B software company, including deal stages like 'Prospecting' (MapPinIcon), 'Qualification' (SearchIcon), 'Proposal' (FileTextIcon), 'Closed Won' (CheckCircleIcon), 'Closed Lost' (XCircleIcon)."
     }}`,
   },
   {

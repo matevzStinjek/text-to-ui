@@ -42,17 +42,17 @@ export const mockDataExamples = [
       {{
         "documentName": {{ "value": "Q2 Financial Summary.xlsx", "icon": "BarChartIcon" }},
         "dateAdded": {{ "value": "2025-04-18" }},
-        "fileType": {{ "value": "XLSX" }}
+        "fileType": {{ "value": "XLSX", "icon": "TableIcon" }}
       }},
       {{
         "documentName": {{ "value": "Annual Marketing Strategy.pptx", "icon": "BarChart2Icon" }},
         "dateAdded": {{ "value": "2025-01-20" }},
-        "fileType": {{ "value": "PPTX" }}
+        "fileType": {{ "value": "PPTX", "icon": "PresentationIcon" }}
       }},
       {{
         "documentName": {{ "value": "Employee Onboarding Guide.pdf", "icon": "FileTextIcon" }},
         "dateAdded": {{ "value": "2024-11-05" }},
-        "fileType": {{ "value": "PDF" }}
+        "fileType": {{ "value": "PDF", "icon": "FileIcon" }}
       }}
     ]`,
   },
@@ -70,7 +70,7 @@ export const mockDataExamples = [
       {{
         "taskDescription": {{ "value": "Develop API endpoint for user authentication" }},
         "priority": {{ "value": "High", "icon": "AlertTriangleIcon" }},
-        "dueDate": {{ "value": "2025-06-15" }}
+        "dueDate": {{ "value": "2025-06-15", "icon": "ClockIcon" }}
       }},
       {{
         "taskDescription": {{ "value": "Update documentation for new feature" }},
@@ -87,16 +87,16 @@ export const mockDataExamples = [
         {{ "id": "stockQuantity", "header": "Stock Quantity", "dataType": "number" }}
       ],
       "rowCount": 3,
-      "mockDataDetails": "Consumer electronics products with names like 'Wireless Headphones' (HeadphonesIcon), 'Coffee Maker' (CoffeeIcon). Products on sale should show a TagIcon next to the price."
+      "mockDataDetails": "Consumer electronics products with names like 'Wireless Headphones' (HeadphonesIcon), 'Smart Watch' (SmartphoneIcon), 'Coffee Maker' (CoffeeIcon)."
     }}`,
     output: `[
       {{
         "productName": {{ "value": "Wireless Noise-Cancelling Headphones", "icon": "HeadphonesIcon" }},
-        "price": {{ "value": 249.99, "icon": "TagIcon" }},
+        "price": {{ "value": 249.99 }},
         "stockQuantity": {{ "value": 150 }}
       }},
       {{
-        "productName": {{ "value": "Smart Fitness Tracker Watch" }},
+        "productName": {{ "value": "Smart Fitness Tracker Watch", "icon": "SmartphoneIcon" }},
         "price": {{ "value": 129.50 }},
         "stockQuantity": {{ "value": 300 }}
       }},
