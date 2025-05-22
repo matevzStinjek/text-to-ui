@@ -31,7 +31,6 @@ describe("MockDataService", () => {
       ],
       actions: [],
       userPromptAnalysis: { originalPrompt: "test" },
-      requestMockData: true,
       mockDataDetails: "Electronic gadgets",
     } satisfies TableSpecification;
 
