@@ -49,7 +49,7 @@ export async function generateTableSpec(
     log.debug(`invoking tableSpecChain with prompt: "${userPrompt}"`);
     const tableSpec = await tableSpecChain.invoke({ userPrompt });
 
-    log.debug("successfully generated table spec");
+    log.debug({ tableSpec }, "successfully generated table spec");
     return tableSpec;
   } catch (error) {
     log.error("error generating table spec:", error);

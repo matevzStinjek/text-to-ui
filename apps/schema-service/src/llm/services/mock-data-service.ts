@@ -83,7 +83,7 @@ export async function generateMockData(
     const mockDataChain = template.pipe(structuredLlm);
 
     const mockData = await mockDataChain.invoke({ currentLlmInput: llmInputString });
-    log.debug(`successfully generated ${mockData.length} rows of mock data via chain`);
+    log.debug({ mockData }, `successfully generated ${mockData.length} rows of mock data via chain`);
     return mockData;
   } catch (error) {
     log.error("error generating mock data via chain: ", error);
