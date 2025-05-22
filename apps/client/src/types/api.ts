@@ -16,8 +16,7 @@ export interface BackendTableSpecification {
     inferredColumns?: string[];
     specificRequestsHandled?: string[];
   };
-  requestMockData: boolean;
-  mockDataDetails?: string;
+  mockDataDetails: string;
 }
 
 export interface CellData {
@@ -31,7 +30,7 @@ export type MockDataOutput = Array<MockDataRow>;
 
 export interface BackendFullOrchestrationResult {
   tableSpecification: BackendTableSpecification;
-  mockData?: MockDataOutput;
+  mockData: MockDataOutput;
 }
 
 export type ServerSuccessResponse = {

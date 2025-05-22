@@ -40,12 +40,12 @@ async function createMockDataPromptTemplate(log: Logger): Promise<FewShotPromptT
 function prepareInputForPrompt(
   columns: TableSpecification["columns"],
   rowCount: number,
-  mockDataDetails: string | undefined
+  mockDataDetails: string
 ): string {
   return JSON.stringify({
     columns: columns.map((col) => ({ id: col.id, header: col.header, dataType: col.dataType })), // only relevant columns
     rowCount,
-    mockDataDetails: mockDataDetails || "General realistic data based on column names and types.",
+    mockDataDetails,
   });
 }
 
@@ -56,10 +56,6 @@ export async function generateMockData(
 ): Promise<MockDataArray> {
   if (!tableSpec || !tableSpec.columns || tableSpec.columns.length === 0) {
     throw new Error("spec includes no columns");
-  }
-  if (!tableSpec.requestMockData) {
-    log.debug("mock data not requested");
-    return [];
   }
 
   const rowCount = tableSpec.requestedRowCount ?? 5;
@@ -83,7 +79,10 @@ export async function generateMockData(
     const mockDataChain = template.pipe(structuredLlm);
 
     const mockData = await mockDataChain.invoke({ currentLlmInput: llmInputString });
-    log.debug({ mockData }, `successfully generated ${mockData.length} rows of mock data via chain`);
+    log.debug(
+      { mockData },
+      `successfully generated ${mockData.length} rows of mock data via chain`
+    );
     return mockData;
   } catch (error) {
     log.error("error generating mock data via chain: ", error);

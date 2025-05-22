@@ -24,8 +24,7 @@ export const TableSpecificationSchema = z.object({
     inferredColumns: z.array(z.string()).optional(),
     specificRequestsHandled: z.array(z.string()).optional(),
   }),
-  requestMockData: z.boolean(),
-  mockDataDetails: z.string().optional(),
+  mockDataDetails: z.string(),
 });
 
 export type TableSpecification = z.infer<typeof TableSpecificationSchema>;

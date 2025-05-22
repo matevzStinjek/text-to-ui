@@ -25,8 +25,7 @@ interface TableSpecification {{
     inferredColumns?: string[]; // List column `id`s that you inferred based on broad terms (e.g., if user says "CRM table", you might infer "dealName", "company", "stage").
     specificRequestsHandled?: string[]; // Describe specific user requests you've incorporated (e.g., "row count set to 7", "name column icon is 'UserCircle'", "status column added").
   }};
-  requestMockData: boolean; // Set to true if the user's request implies they want to see example data in the table, or if they explicitly ask for it. Default to true if unsure, as users usually want to see a populated table.
-  mockDataDetails?: string; // If `requestMockData` is true, provide a brief theme or context for the mock data, including guidance for which values should have associated icons at the cell level. Example: "Sales transactions for an e-commerce fashion website with 'Completed' status (checkmark icon) and 'Pending' status (clock icon)".
+  mockDataDetails: string; // Provide a brief theme or context for the mock data, including guidance for which values should have associated icons at the cell level. Example: "Sales transactions for an e-commerce fashion website with 'Completed' status (checkmark icon) and 'Pending' status (clock icon)".
 }}
 ```
 
@@ -85,8 +84,7 @@ DETAILED INSTRUCTIONS FOR JSON GENERATION:
    - **originalPrompt**: Copy the user's original prompt verbatim.
    - **inferredColumns**: If you added columns not explicitly mentioned but implied by a general term (like "CRM"), list their ids here.
    - **specificRequestsHandled**: Briefly note any explicit user requests you've addressed (e.g., "Set row count to 5", "Used 'Star' from Lucide icons list for name column").
-6. **requestMockData**: Set to true if the user's prompt suggests they want to see a populated table (which is most cases unless they explicitly say "empty table structure"). If they ask for "examples", "sample data", or a specific number of rows of content, this should be true.
-7. **mockDataDetails**: If requestMockData is true, provide a short thematic description to guide potential mock data generation. This should be based on the table's context. Importantly, include specific guidance for which values should have associated icons at the cell level. For example, if there's a "status" column, indicate which status values should display specific icons (e.g., "Completed statuses should use CheckCircle icon, In Progress should use Clock icon").
+6. **mockDataDetails**: Provide a brief theme or context for the mock data, including guidance for which values should have associated icons at the cell level. Example: "Sales transactions for an e-commerce fashion website with 'Completed' status (checkmark icon) and 'Pending' status (clock icon)".
 
 OUTPUT EXAMPLE (Illustrative - DO NOT copy this structure verbatim, always follow the schema above):  
 A user prompt like "Show me 3 recent customer support tickets with subject, priority, and status. I need to be able to close them. Use a checkmark for close."  
@@ -126,9 +124,6 @@ Might result in a JSON object (ensure your output is JUST the JSON object):
       "priority and status columns are status type with icons from Lucide icons list"
     ]
   }},
-  "requestMockData": true,
   "mockDataDetails": "Customer support tickets for a software product, including subjects, priority levels (e.g., High with AlertTriangle icon, Medium, Low), and current statuses (e.g., Open, In Progress with Clock icon, Resolved with CheckCircle icon)."
 }}
 ```
-
-Remember: Your output must be ONLY the valid JSON object based on the TableSpecification interface. No leading/trailing text or markdown

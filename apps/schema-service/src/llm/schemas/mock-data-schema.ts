@@ -8,7 +8,7 @@ export type MockDataArray = {
 export function createItemSchemaFromTableSpec(columns: TableSpecification["columns"]) {
   const shape: Record<string, z.ZodTypeAny> = {};
   columns.forEach((column) => {
-    let type: z.ZodTypeAny
+    let type: z.ZodTypeAny;
     switch (column.dataType) {
       case "number":
         type = z.number().describe(column.header);
@@ -26,7 +26,7 @@ export function createItemSchemaFromTableSpec(columns: TableSpecification["colum
     shape[column.id] = z.object({
       value: type,
       icon: z.string().optional(),
-    })
+    });
   });
 
   return z.object(shape);

@@ -35,11 +35,9 @@ export const handleGenerateTable = async ({
     let mockDataItems: Record<string, any>[] = [];
 
     // step 2: generate mock data
-    if (tableSpecification.requestMockData) {
-      if (tableSpecification.columns && tableSpecification.columns.length > 0) {
-        mockDataItems = await generateMockData(tableSpecification, creativeLlm, log);
-        log.info("mock data generated successfully");
-      }
+    if (tableSpecification.columns && tableSpecification.columns.length > 0) {
+      mockDataItems = await generateMockData(tableSpecification, creativeLlm, log);
+      log.info("mock data generated successfully");
     }
 
     const result = {
