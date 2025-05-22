@@ -2,7 +2,7 @@ import type { Logger } from "pino";
 import { z } from "zod";
 
 const LlmConfigSchema = z.object({
-  model: z.string().default("gemini-1.5-flash-latest"),
+  model: z.string().default("gemini-2.5-flash-preview-05-20	"),
   temperature: z.coerce.number().min(0).max(2).default(0.1),
   topK: z.coerce.number().int().positive().default(3),
   topP: z.coerce.number().min(0).max(1).default(0.9),
