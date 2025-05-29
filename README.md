@@ -1,14 +1,12 @@
-# Banani Test Task
+# Text to UI - Table Generator
 
-# TL;DR
+This is a POC for a text-to-UI tool. It generates tables from text prompts. You input a description, and it uses an LLM to create the corresponding table structure and content.
 
-Create an app that uses an LLM API of your choice to generate a beautiful table filled with content based on the user prompt.
+It uses Langchain for the LLM client, Elysia is the framework, Bun is the env. React with shadcn and tw on the frontend.
 
-etc..
-
-## Instructions
+## How to run
 
 1. `cp apps/schema-service/.env.example apps/schema-service/.env`
-2. add GEMINI_API_KEY to `.env`
-3. `cd infra/docker && dc up`
-4. visit `localhost:8080`
+2. Add your `GEMINI_API_KEY` to the `apps/schema-service/.env` file
+3. `cd infra/docker && docker-compose up`
+4. `http://localhost:8080`
